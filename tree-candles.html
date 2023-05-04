@@ -1,0 +1,61 @@
+<html>
+    <head>
+    <title>tree candles</title>
+    <style>
+    body {font-family: serif;}
+    * {
+      box-sizing: border-box;
+    }
+    .center {
+        margin: auto;
+        width: 700px;
+        padding: 0px;
+    }
+    .column {
+        float: left;
+        width: 33.33%;
+        padding: 5px;
+    }
+
+    /* Clear floats after image containers */
+    .row::after {
+        content: "";
+        clear: both;
+        display: table;
+    }
+    </style>
+    </head>
+    <body>
+        <div class="center">
+            <h1 style="text-align:center; margin-bottom:10px">tree candles</h1>
+            <img align="left" src="tree-candles/babybelbanner.png" style="display:block", width="700"><br>
+            <p style="clear:left; width: 700px;">
+                <br>
+                Some tree inspired, babybel cheese wax candles<br> (they were scented lavender so do try to imagine that :) )
+            </p>
+            <div class="row">
+                <div class="column">
+                    <video style="width:100%" controls>
+                        <source src="tree-candles/singlecandle.mp4" type="video/mp4">
+                        Your browser does not support HTML video.
+                    </video><br>
+                    <p style="text-align:center">a regular candle!</p>
+                </div>
+                <div class="column">
+                    <video style="width:100%" controls>
+                        <source src="tree-candles/binarytree.mp4" type="video/mp4">
+                        Your browser does not support HTML video.
+                    </video><br>
+                    <p style="text-align:center">binary tree</p>
+                </div>
+                <div class="column">
+                    <video style="width:100%" controls>
+                        <source src="tree-candles/ternarytree.mp4" type="video/mp4">
+                        Your browser does not support HTML video.
+                    </video><br>
+                    <p style="text-align:center">ternary tree (aka eiffel tower) </p>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
