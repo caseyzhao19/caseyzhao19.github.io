@@ -19,14 +19,14 @@
             How to play the game: 
             <br>
             <br>
-            The objective is to find sets from a group of 12~15 cards as quickly as possible. A set consists of three cards such that the attributes: color, shape, count, fill, are either the same for all three cards, or all different. <br>
+            The objective is to find sets from a group of 12~15 cards as quickly as possible. A set consists of three cards such that the attributes: color, shape, count, fill, are either the same for all three cards, or are all different. <br>
             <br>
             Examples: <br>
         </p>
         <img align=left src="set-game-files/examples.png" style="display:block", width="700">
         <p style="clear:left; width: 700px;">
             <br>
-            The three cards on the left form a set, since they all have different colors, shapes, counts and fills. The ones in the middle also form a set, since they all have the same color and count, and all different shapes and fills. However, the cards on the right do NOT a form set, since they do not <i>all</i> have the same or all different fills (although they have different shapes, colors, and counts, there are two striped cards and a solid card).
+            The three cards on the left form a set, since they all have different colors, shapes, counts and fills. The ones in the middle also form a set, since they all have the same color and count, and all different shapes and fills. However, the cards on the right do NOT a form set, since they do not <i>all</i> have the same or all different fills - although they have different shapes, colors, and counts, there are two striped cards and a solid card.
         </p>
         <p style="clear:left; width: 700px;">
             See also: <a href="set-game-files/setinstructions.pdf" target="_blank" rel="noopener noreferrer">
@@ -35,7 +35,7 @@
         </p>
         <hr style="width:700px;text-align:left;margin-left:0">
         <p style="clear:left; width: 700px;">
-            To get the computer to play, it first needs to identify the cards. I originally tried to do this without machine learning - training would require me to take thousands of pictures and label them (is what I figured, then), and I didn't want to do that! So I used OpenCV to first segment an image into individual cards, warp the card so that it was flat (birds-eye view), and identify each of the four features, using various methods: <br>
+            To get the computer to play, it first needs to identify the cards. I originally tried to do this without machine learning - training would require me to take thousands of pictures and label them (is what I figured, then), and I didn't want to do that! So I used OpenCV to first segment an image into individual cards, warp the card so that it was flat (birds-eye view), and identify each of the four features, using the following methods: <br>
             <br>
             Count: find contours on each card, count contours that are approximately the same size as the largest<br>
             Shape: take the absolute difference with pre-drawn shape masks, find shape with minimum difference <br>
@@ -55,9 +55,9 @@
         </p>
         <hr style="width:700px;text-align:left;margin-left:0">
         <p style="clear:left; width: 700px;">
-            I caved and went with the machine learning route. But I still didn't want to take thousands of pictures... <br>
+            I caved and went with the machine learning route. <br>
             <br>
-            What I ended up doing was taking 7 pictures of all 81 cards, repurposing the code above to cut each of the 81 cards from the pictures, and hand-labelling 81x7=567 cards (which wasn't all terrible - was a pretty chill afternoon, had snacks and nice music). Here's a snippet of those labelled cards:<br>
+            To avoid taking thousands of pictures, what I ended up doing was taking 7 pictures of all 81 cards, repurposing the code above to cut each of the 81 cards from the pictures, and hand-labelling 81x7=567 cards (which wasn't all terrible - had snacks and good music!). Here's a sample of those labelled cards:<br>
         </p>
         <img align="left" src="set-game-files/fileexplorerimage.JPG" style="display:block", width="700">
         <p style="clear:left; width: 700px;">
@@ -67,7 +67,7 @@
             Here's the code for generating the data (it's not very reader-friendly): <a href="set-game-files/generatedata.py" download>
               generatedata.py</a><br>
             <br>
-            Here's a sampling of the generated data - click for full-sized image:<br>
+            Here's a snippet of the generated data - click for full-sized image:<br>
         </p>
         <a href="set-game-files/sampling.jpg" target="_blank" rel="noopener noreferrer">
             <img align="left" target="_blank" src="set-game-files/sampling.jpg" style="display:block", width="700">
@@ -89,15 +89,15 @@
         </a>
         <p style="clear:left; width: 700px;">
             <br>
-            It's does pretty well! Although something that might help to do in the future would be to simply run more epochs - it seems like the mAP hasn't completely plateaued yet. But I was quite happy with it as of now.
+            It's does pretty well! Although something that might help to do in the future would be to simply run more epochs - it seems like the mAP hasn't completely plateaued yet. But I was happy with it as it was.
         </p>
         <hr style="clear:left; width:700px;text-align:left;margin-left:0">
         <p style="clear:left; width: 700px;">
             After training, all that's left is to write the set algorithm. There's a clever way to determine if any given collection of 3 cards is a set: if we assign each type in an attribute a number from &#123;0,1,2&#125; (for example, squiggle=0, diamond=1, oval=2), the sum for each attribute over the three cards should equal 0 mod 3.<br>
             <br>
-            Read &#167;3 of this paper for a better explanation: <a href="http://web.math.princeton.edu/~charchan/SET.pdf" target="_blank" rel="noopener noreferrer">set math</a> (or just read the whole thing! it's very interesting)<br>
+            Read &#167;3 of this paper for a better explanation: <a href="http://web.math.princeton.edu/~charchan/SET.pdf" target="_blank" rel="noopener noreferrer">set math</a> (or just read the whole thing!)<br>
             <br>
-            The detections were sometimes unstable - they tend to flicker as the lighting changes. To fix that, I made a queue of recent set detections (from the previous 30 frames) and displayed the mode. I also sorted the sets, so that when multiple sets exist in the deck, it picks one consistently; otherwise it switches back and forth between them. Something that might be nice to implement later would be to draw borders on the contours of the cards (like in my original attempt), instead of bounding boxes, but I don't know how to train YOLOv5 to do that. It seems that for now the only annotation format YOLOv5 supports is bounding boxes.<br>
+            The detections were sometimes unstable - they tend to flicker as the lighting changes. To fix that, I made a queue of recent set detections (from the previous 30 frames) and displayed the mode. I also sorted the sets, so that when multiple sets exist in the deck, it picks one consistently; otherwise it switches back and forth between them. Something that might be nice to implement later would be to draw borders on the contours of the cards (like in my original attempt), instead of bounding boxes, but I don't know how to get YOLOv5 to do that. It seems that for now the only annotation format YOLOv5 supports is bounding boxes.<br>
             <br>
             Here's a video of it in action:
             <br>
