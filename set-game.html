@@ -16,10 +16,7 @@
         <img align="left" src="set-game-files/topimage.png" style="display:block; margin-left:50px", width="600">
         <p style="clear:left; width: 700px;">
             <br>
-            How to play the game: 
-            <br>
-            <br>
-            The objective is to find sets from a group of 12~15 cards as quickly as possible. A set consists of three cards such that the four attributes: color, shape, count, and fill, are either the same for all three cards, or are all different. <br>
+            How to play the game: The objective is to find sets from a group of 12~15 cards as quickly as possible. A set consists of three cards such that the four attributes: color, shape, count, and fill, are either the same for all three cards, or are all different. <br>
             <br>
             Examples: <br>
         </p>
@@ -35,7 +32,7 @@
         </p>
         <hr style="width:700px;text-align:left;margin-left:0">
         <p style="clear:left; width: 700px;">
-            To get the computer to play, it first needs to identify the cards. I originally tried to do this without machine learning - training would require me to take thousands of pictures and label them, is what I figured, then, and I didn't want to do that! So I used OpenCV to first segment an image into individual cards, warp the card so that they was flat (birds-eye view), and identify each of the four features, using the following methods: <br>
+            To get the computer to play, it first needs to identify the cards. I originally tried to do this without machine learning - training would require me to take thousands of pictures and label them, is what I figured then, and I didn't want to do that! So I used OpenCV to first segment an image into individual cards, warp the card so that they was flat (birds-eye view), and identify each of the four features, using the following methods: <br>
             <br>
             Count: find contours on each card, count contours that are approximately the same size as the largest<br>
             Shape: take the absolute difference with pre-drawn shape masks, find shape with minimum difference <br>
@@ -80,7 +77,7 @@
             <br>
             To avoid false positives, I put in a bunch of junk photos, along with some things that might be confused as cards, such as the coco 128 dataset + background images without cards + pictures of poker cards + pictures of sticky notes + phones + index cards + colored pills + paint splotches + etc... <br>
             <br>
-            I trained for 50 epochs using YOLOv5's pretrained medium-sized network. I ended up using YOLOv5 since they have a notebook written for Colab - I couldn't get the other versions to run locally on my Windows laptop :( )<br>
+            I trained for 50 epochs using YOLOv5's pretrained medium-sized network. I ended up using YOLOv5 since they have a notebook written for Colab - I couldn't get the other versions to run locally on my Windows laptop :( <br>
             <br>
             Here are the training results - click for full-sized image:<br>
         </p>
@@ -89,7 +86,7 @@
         </a>
         <p style="clear:left; width: 700px;">
             <br>
-            It's does reasonably well! Although something that might help to do in the future would be to simply run more epochs; it seems like the mAP hasn't yet completely plateaued. But I was happy with it as it was.
+            It's does reasonably well, although something that might help to do in the future would be to simply run more epochs; it seems like the mAP hasn't yet completely plateaued. But I was happy with it as it was.
         </p>
         <hr style="clear:left; width:700px;text-align:left;margin-left:0">
         <p style="clear:left; width: 700px;">
@@ -107,7 +104,7 @@
             Your browser does not support HTML video.
         </video>
         <p style="clear:left; width: 700px;">
-            Note how it handles rotation and overlapping cards! It also ignores cards that aren't set cards.<br>
+            Note how it handles rotation and overlapping cards. It also ignores cards that aren't set cards.<br>
             <br>
             If you would like to run it, here is the detection code modified for finding sets, and the trained weights:<br>
             <br>
@@ -122,7 +119,6 @@
             <code>python detectsets.py --source 1 --weights setcardsweights.pt --conf-thres 0.5</code><br>
             <br>
             Hooray!<br>
-            <br>
         </p>
         <hr>
         <footer>
